@@ -3,35 +3,26 @@
  * Freq: 12MHz
  */
 
-#include <INTRINS.H>
-#include <STC/STC89C5xRC.H>
-#include <stdio.h>
+#include "config.h"
+#include "utils.h"
 
-void Delay500ms(void) {
-    unsigned char data i, j, k;
+unsigned char number_hex_list[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F};
 
-    _nop_();
-    i = 4;
-    j = 205;
-    k = 187;
-    do {
-        do {
-            while (--k)
-                ;
-        } while (--j);
-    } while (--i);
-}
+void digital_tube_show(int which, int number) { 
+    which--;
+    which = (unsigned char)which;
+    
+    P2 &= 0xE3;
+    P2 |= ~(which << 2);
 
-unsigned char right_loop(unsigned char value, int n) {
-    int bits = sizeof(value) * 8;
-    return (value >> n) | (value << (bits - n));
+    P0 = number_hex_list[number];
 }
 
 void main(void) {
-    P2 = 0xFE; // 初始化
+    digital_tube_show(5, 1);
 
-    do {
-        Delay500ms();
-        P2 = right_loop(P2, 1);
-    } while (1);
+    while (1)
+    {
+        /* code */
+    }
 }
