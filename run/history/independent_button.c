@@ -37,6 +37,7 @@ void main(void) {
     P2 = 0xFE; // 初始化
 
     while (1) {
+        // 以下消抖无法识别抖动
         if (P30 == 0) { // 读取一整个按下到放开按钮的一个按压过程
             Delay20ms();
             while (P30 == 0);
